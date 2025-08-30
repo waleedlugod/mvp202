@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { Gltf, OrbitControls } from "@react-three/drei";
 
 function App() {
   return (
@@ -7,10 +7,7 @@ function App() {
       <OrbitControls />
       <ambientLight />
       <directionalLight position={[1, 2, 3]} intensity={2} />
-      <mesh>
-        <boxGeometry />
-        <meshStandardMaterial color={"orange"} />
-      </mesh>
+      <Gltf src={"/assets/scene.gltf"} scale={0.01} position={[0, -0.3, 0]} />
     </Canvas>
   );
 }
