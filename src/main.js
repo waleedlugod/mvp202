@@ -52,3 +52,14 @@ window.addEventListener("resize", () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
+
+/**
+ * Animate
+ */
+const clock = new THREE.Clock();
+function tick() {
+  controls.update();
+  renderer.render(scene, camera);
+  window.requestAnimationFrame(tick);
+}
+tick();
