@@ -12,8 +12,11 @@ import { PointLight } from "three";
 
 function App() {
   const debug = false;
-  const rb = useRef<RapierRigidBody>(null);
-  const pl = useRef<PointLight>(null);
+
+  const rb = useRef<RapierRigidBody>(null); // heart rigid body ref
+  const pl = useRef<PointLight>(null); // point light ref
+
+  // makes heart jump and spin
   function jump() {
     if (rb.current) {
       const body = rb.current;
@@ -22,6 +25,7 @@ function App() {
         body.applyTorqueImpulse({ x: 0, y: 15, z: 0 }, true);
     }
   }
+
   return (
     <Canvas id="webgl" camera={{ position: [0, 0, 4] }}>
       <OrbitControls
@@ -36,6 +40,7 @@ function App() {
       {debug && pl.current ? <pointLightHelper args={[pl.current]} /> : <></>}
 
       <Physics debug={debug}>
+        {/* roof */}
         <RigidBody type="fixed">
           <mesh position={[0, 1, 0]} rotation={[-Math.PI / 2, 0, 0]}>
             <planeGeometry args={[10, 10]} />
@@ -43,18 +48,20 @@ function App() {
           </mesh>
         </RigidBody>
 
+        {/* heart */}
         <RigidBody
           ref={rb}
           enabledTranslations={[false, true, false]}
           enabledRotations={[false, true, false]}
           friction={0.2}
           frictionCombineRule={CoefficientCombineRule.Min}
-          colliders={false}
+          colliders={false} // use custom collider since auto is not centered
         >
           <CuboidCollider args={[1, 1, 1]} />
           <Gltf src={"/assets/scene.gltf"} scale={0.01} onClick={jump} />
         </RigidBody>
 
+        {/* floor */}
         <RigidBody type="fixed">
           <mesh position={[0, -2, 0]} rotation={[Math.PI / 2, 0, 0]}>
             <planeGeometry args={[10, 10]} />
